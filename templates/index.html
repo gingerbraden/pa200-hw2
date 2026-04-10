@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Taskboard — My Tasks{% endblock %}
+
+{% block content %}
+<div class="layout">
+
+  <aside class="panel panel-add">
+    <h2 class="panel-title">New Task</h2>
+    <form action="{{ url_for('add_todo') }}" method="POST" class="add-form">
+      <div class="field">
+        <label for="title">What needs doing?</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="e.g. Deploy to Azure…"
+          required
+          autocomplete="off"
+          maxlength="200"
+        />
+      </div>
+      <div class="field">
+        <label for="description">Notes <span class="optional">(optional)</span></label>
+        <textarea id="description" name="description" rows="3" placeholder="Any extra detail…"></textarea>
+      </div>
+      <div class="field">
+        <label>Priority</label>
+        <div class="priority-group">
+          <label class="prio-opt prio-low">
+            <input type="radio" name="priority" value="low" /> Low
+          </label>
+          <label class="prio-opt prio-medium">
+            <input type="radio" name="priority" value="medium" checked /> Medium
+          </label>
+          <label class="prio-opt prio-high">
+            <input type="radio" name="priority" value="high" /> High
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Task</button>
+    </form>
+  </aside>
+
+  <section class="panel panel-list">
+
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-number">{{ stats.total }}</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">{{ stats.active }}</span>
+        <span class="stat-label">Active</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">{{ stats.done }}</span>
+        <span class="stat-label">Done</span>
+      </div>
+      {% if stats.total > 0 %}
+      <div class="stat stat-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: {{ (stats.done / stats.total * 100)|round|int }}%"></div>
+        </div>
+        <span class="stat-label">{{ (stats.done / stats.total * 100)|round|int }}% complete</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="filters">
+      <div class="filter-group">
+        <span class="filter-label">Show:</span>
+        {% for f in [('all','All'), ('active','Active'), ('done','Done')] %}
+          <a href="{{ url_for('index', filter=f[0], priority=current_priority) }}"
+             class="filter-chip {% if current_filter == f[0] %}active{% endif %}">
+            {{ f[1] }}
+          </a>
+        {% endfor %}
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Priority:</span>
+        {% for p in [('all','All'), ('low','Low'), ('medium','Med'), ('high','High')] %}
+          <a href="{{ url_for('index', filter=current_filter, priority=p[0]) }}"
+             class="filter-chip priority-chip-{{ p[0] }} {% if current_priority == p[0] %}active{% endif %}">
+            {{ p[1] }}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if todos %}
+    <ul class="task-list">
+      {% for todo in todos %}
+      <li class="task-item {% if todo.done %}task-done{% endif %} prio-{{ todo.priority }}">
+        <div class="task-left">
+          <form action="{{ url_for('toggle_todo', todo_id=todo.id) }}" method="POST" class="inline-form">
+            <button type="submit" class="check-btn" title="Toggle done" aria-label="Toggle done">
+              {% if todo.done %}✓{% else %}&nbsp;{% endif %}
+            </button>
+          </form>
+          <div class="task-body">
+            <span class="task-title">{{ todo.title }}</span>
+            {% if todo.description %}
+            <span class="task-desc">{{ todo.description }}</span>
+            {% endif %}
+            <span class="task-meta">
+              <span class="badge badge-{{ todo.priority }}">{{ todo.priority }}</span>
+              <span class="task-date">{{ todo.created_at.strftime('%b %d') }}</span>
+            </span>
+          </div>
+        </div>
+        <div class="task-actions">
+          <a href="{{ url_for('edit_todo', todo_id=todo.id) }}" class="action-btn" title="Edit">✎</a>
+          <form action="{{ url_for('delete_todo', todo_id=todo.id) }}" method="POST" class="inline-form"
+                onsubmit="return confirm('Delete this task?')">
+            <button type="submit" class="action-btn action-delete" title="Delete">✕</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <div class="empty-state">
+      <p class="empty-icon">◈</p>
+      <p class="empty-msg">No tasks here yet.<br/>Add one on the left!</p>
+    </div>
+    {% endif %}
+
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Taskboard{% endblock %}</title>
+
+  {% if static_base %}
+    <link rel="stylesheet" href="{{ static_base }}/css/style.css" />
+  {% else %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% endif %}
+
+  </head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="{{ url_for('index') }}" class="wordmark">
+          <span class="wm-icon">◈</span>
+          <span class="wm-text">Taskboard</span>
+        </a>
+        <p class="header-sub">Keep it simple. Get it done.</p>
+      </div>
+    </header>
+
+    <main class="main-content">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <span>Flask · PostgreSQL · Azure</span>
+    </footer>
+  </div>
+
+  {% if static_base %}
+    <script src="{{ static_base }}/js/app.js"></script>
+  {% else %}
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% endif %}
+</body>
+</html>
