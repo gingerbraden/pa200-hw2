@@ -1,21 +1,21 @@
 /* ── Design tokens ────────────────────────────────────────────────────────── */
 :root {
-  --bg:          #f5f2ec;
-  --surface:     #ffffff;
-  --surface-2:   #faf8f4;
-  --border:      #e2ddd6;
-  --text:        #1a1814;
-  --text-muted:  #7a7468;
-  --accent:      #2d5016;
-  --accent-pale: #e8f0df;
-  --accent-mid:  #4a7c25;
-  --high:        #c0392b;
-  --high-pale:   #fdecea;
-  --med:         #d4830a;
-  --med-pale:    #fef3e2;
-  --low:         #27647a;
-  --low-pale:    #e2f0f5;
-  --done-text:   #a09890;
+    --bg:          #f3f0f7;
+    --surface:     #ffffff;
+    --surface-2:   #f8f5fc;
+    --border:      #ddd6e8;
+    --text:        #1a1420;
+    --text-muted:  #6e6280;
+    --accent:      #5b21b6;
+    --accent-pale: #ede5fb;
+    --accent-mid:  #7c3aed;
+    --high:        #c0392b;
+    --high-pale:   #fdecea;
+    --med:         #d4830a;
+    --med-pale:    #fef3e2;
+    --low:         #2563eb;
+    --low-pale:    #e0eaff;
+    --done-text:   #9890a0;
   --radius:      10px;
   --radius-sm:   6px;
   --shadow:      0 2px 12px rgba(0,0,0,.07);
