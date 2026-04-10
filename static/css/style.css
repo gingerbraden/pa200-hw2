@@ -20,7 +20,7 @@
   --radius-sm:   6px;
   --shadow:      0 2px 12px rgba(0,0,0,.07);
   --shadow-lg:   0 8px 32px rgba(0,0,0,.10);
-    --font-serif:  Georgia, 'Times New Roman', serif;
+    --font-serif:  system-ui, -apple-system, sans-serif;
     --font-sans:   system-ui, -apple-system, sans-serif;
     --font-mono:   'Consolas', 'Courier New', monospace;
   --transition:  200ms ease;
